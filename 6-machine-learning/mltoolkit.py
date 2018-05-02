@@ -4,7 +4,7 @@ from sklearn.metrics import *
 import pandas as pd
 from collections import OrderedDict
 import time
-
+import matplotlib.pyplot as plt
 
 def downsample(df, columnName, seed=7):
     '''Returns a balanced dataset for the given column name by downsampling
@@ -108,6 +108,9 @@ class MultiClassClassifier(object):
 
         if numClass == 2:
             metrics['AUC'] = str(roc_auc_score(test.indexedLabel, positive_prob))
+            self.TPR, self.FPR, thresholds = roc_curve(test.indexedLabel, positive_prob)
+            self.AUC = auc(self.TPR, self.FPR)
+
 
         metrics['F Score'] = str(f1_score(test.indexedLabel, pred))
         metrics['Accuracy'] = str(accuracy_score(test.indexedLabel, pred))
@@ -140,3 +143,16 @@ class MultiClassClassifier(object):
         print(f"\n Total time taken: {end-start}")
 
         return metrics
+
+
+def plot_roc(TPR, FPR, AUC):
+    plt.title('Receiver Operating Characteristic')
+    plt.plot(TPR, FPR, 'b',
+    label='AUC = %0.2f'% AUC)
+    plt.legend(loc='lower right')
+    plt.plot([0,1],[0,1],'r--')
+    plt.xlim([-0.05,1.05])
+    plt.ylim([-0.05,1.05])
+    plt.ylabel('True Positive Rate')
+    plt.xlabel('False Positive Rate')
+    plt.show()
