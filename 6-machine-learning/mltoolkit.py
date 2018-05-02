@@ -5,6 +5,8 @@ import pandas as pd
 from collections import OrderedDict
 import time
 import matplotlib.pyplot as plt
+from sklearn.metrics import precision_recall_fscore_support
+import numpy as np
 
 def downsample(df, columnName, seed=7):
     '''Returns a balanced dataset for the given column name by downsampling
@@ -50,16 +52,22 @@ class MultiClassClassifier(object):
         label (str): classification label
         testFraction (float): test set fraction [0.3]
         seed (int): random seed
+        average (str): Type of averaging for multiclass classification metrics
+                   - micro
+                   - macro
+                   - weighted (default)
+                   - samples
     '''
 
 
-    def __init__(self, predictor, label, testFraction=0.3, seed=1):
+    def __init__(self, predictor, label, testFraction=0.3, seed=1, average = 'weighted'):
 
         self.predictor = predictor
         self.label = label
         self.testFraction = testFraction
         self.seed = seed
         self.prediction = None
+        self.average = average
 
     def fit(self, df):
         '''Dataset must at least contain the following two columns:
@@ -105,17 +113,30 @@ class MultiClassClassifier(object):
         metrics = OrderedDict()
         metrics["Methods"] = str(self.predictor).split('(')[0]
 
+        precision, recall, fscore, support = precision_recall_fscore_support(test.indexedLabel, pred)
+        metrics_table = OrderedDict([('Labels', df[self.label].unique()) ,
+                                    ('Precision', ["%.2f"%p + '%' for p in precision]),
+                                    ('Recall', ["%.2f"%r  + '%' for r in recall]),
+                                    ('FScore' , ["%.2f"%f for f in fscore]),
+                                    ('Support' , support),]
+                                    )
+        self.metrics_table = pd.DataFrame(metrics_table)
 
         if numClass == 2:
             metrics['AUC'] = str(roc_auc_score(test.indexedLabel, positive_prob))
             self.TPR, self.FPR, thresholds = roc_curve(test.indexedLabel, positive_prob)
             self.AUC = auc(self.TPR, self.FPR)
 
+            metrics['F Score'] = str(f1_score(test.indexedLabel, pred))
+            metrics['Accuracy'] = str(accuracy_score(test.indexedLabel, pred))
+            metrics['Precision'] = str(precision_score(test.indexedLabel, pred))
+            metrics['Recall'] = str(recall_score(test.indexedLabel, pred))
 
-        metrics['F Score'] = str(f1_score(test.indexedLabel, pred))
-        metrics['Accuracy'] = str(accuracy_score(test.indexedLabel, pred))
-        metrics['Precision'] = str(precision_score(test.indexedLabel, pred))
-        metrics['Recall'] = str(recall_score(test.indexedLabel, pred))
+        else:
+            metrics['F Score'] = str(f1_score(test.indexedLabel, pred, average = self.average))
+            metrics['Accuracy'] = str(accuracy_score(test.indexedLabel, pred))
+            metrics['Precision'] = str(precision_score(test.indexedLabel, pred, average = self.average))
+            metrics['Recall'] = str(recall_score(test.indexedLabel, pred, average = self.average))
 
         confusionMatrix = confusion_matrix(test.indexedLabel, pred)
 
@@ -133,6 +154,10 @@ class MultiClassClassifier(object):
         TPR = TP/(TP+FN)
         FPR = FP/(FP+TN)
 
+        average_rate = lambda x: sum(x)/float(len(x)) if type(x) == np.ndarray else x
+        TPR = average_rate(TPR)
+        FPR = average_rate(FPR)
+
         metrics["False Positive Rate"] = str(FPR)
         metrics["True Positive Rate"] = str(TPR)
 
@@ -140,7 +165,7 @@ class MultiClassClassifier(object):
                       + f"\n{confusionMatrix}"
 
         end = time.time()
-        print(f"\n Total time taken: {end-start}")
+        print(f"\nTotal time taken: {end-start}\n")
 
         return metrics
 
