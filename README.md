@@ -7,3 +7,15 @@ To try out our jupyter notebook demos without any installation, please click thi
 
 
 It can take a few minutes for Binder to setup the environment.
+
+
+## Installation
+
+Please follow the installation guide on mmtfPyspark's [GitHub](https://github.com/sbl-sdsc/mmtf-pyspark) to install the python package.
+
+## Clone Repository
+
+Clone this repository by running the following command on your terminal:
+```
+git clone https://github.com/sbl-sdsc/mmtf-workshop-2018.git
+```
