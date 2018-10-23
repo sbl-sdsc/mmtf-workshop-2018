@@ -5,7 +5,7 @@ San Diego Supercomputer Center, UC San Diego, May 7-9, 2018
 
 ## Outcomes
 
-[Participant survey](https://github.com/sbl-sdsc/mmtf-workshop-2018/Survey.pdf)
+[Participant survey](https://github.com/sbl-sdsc/mmtf-workshop-2018/blob/master/Survey.pdf)
 
 [Hackathon results](https://github.com/sbl-sdsc/mmtf-hackathon-2018)
 
