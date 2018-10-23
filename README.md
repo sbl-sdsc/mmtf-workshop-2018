@@ -3,6 +3,15 @@
 Application of Big Data Technology and 3D Visualization,
 San Diego Supercomputer Center, UC San Diego, May 7-9, 2018
 
+## Outcomes
+
+[Participant survey](https://github.com/sbl-sdsc/mmtf-workshop-2018/Survey.pdf)
+
+[Hackathon results](https://github.com/sbl-sdsc/mmtf-hackathon-2018)
+
+
+## Workshop Tutorials
+
 To try out our jupyter notebook demos without any installation, please click this binder button -> [![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/sbl-sdsc/mmtf-workshop-2018/master)
 
 
