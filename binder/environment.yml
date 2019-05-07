@@ -1,13 +1,11 @@
 name: mmtf-workshop-2018
 
-channels: 
-  - anaconda
-  - conda-forge
-
 dependencies:
   - python>=3.6
   - openjdk==8.0.152
   - pyspark==2.3.2
   - biopython==1.72
+  - numba==0.41.0
+  - pip
   - pip:
-      - mmtfPyspark==0.3.5
+      - git+https://github.com/sbl-sdsc/mmtf-pyspark.git
