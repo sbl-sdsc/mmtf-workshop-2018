@@ -1,2 +1,2 @@
 #!/bin/bash
-jupyter labextension install jupyterlab_3dmol @jupyter-widgets/jupyterlab-manager 
+#jupyter labextension install jupyterlab_3dmol @jupyter-widgets/jupyterlab-manager 
