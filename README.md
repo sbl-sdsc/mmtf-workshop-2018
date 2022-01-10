@@ -17,6 +17,7 @@ To try out our Jupyter notebook demos without any installation.
 **NOTE:** Authentication is now required to launch binder! Sign into GitHub from your browser, then click on the `launch binder` badge below to launch Jupyter Lab.
 
 [![Binder](https://aws-uswest2-binder.pangeo.io/badge_logo.svg)](https://aws-uswest2-binder.pangeo.io/v2/gh/sbl-sdsc/mmtf-workshop-2018/master?urlpath=lab)
+
 It can take a few minutes for Binder to setup the environment.
 
 
