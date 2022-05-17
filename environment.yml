@@ -1,4 +1,4 @@
-name: mmtf-pyspark 
+name: mmtf-workshop-2018 
 
 channels:
   - conda-forge
